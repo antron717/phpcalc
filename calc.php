@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +32,6 @@
 </head>
 <body>
 <?php 
-session_start();
 function debug_to_console($data) {
     $output = $data;
     if (is_array($output))
@@ -42,6 +42,8 @@ function debug_to_console($data) {
 
 function clearNums() {
     session_unset();
+    $_SESSION["total"] = 0;
+    $_SESSION["num1"] = 0;
 }
  function addNums() {
     $_SESSION["total"] = $_SESSION["total"] + $_SESSION["num1"]; 
@@ -101,7 +103,8 @@ if(isset($_GET["num"])) {
 }
 
 if(isset($_GET["sub"])) {
-    if($_SESSION["symbol"] == null) {
+    $op = $_SESSION["symbol"] ?? '';
+    if($op == null) {
       opPicker("-");
     } else {
       opPicker($_SESSION["symbol"]);
@@ -112,7 +115,8 @@ if(isset($_GET["sub"])) {
 
 
 if(isset($_GET["mult"])) {
-    if($_SESSION["symbol"] == null) {
+    $op = $_SESSION["symbol"] ?? '';
+    if($op == null) {
       opPicker("*");
     } else {
       opPicker($_SESSION["symbol"]);
@@ -122,7 +126,8 @@ if(isset($_GET["mult"])) {
 }
 
 if(isset($_GET["plus"])) {
-    if($_SESSION["symbol"] == null) {
+    $op = $_SESSION["symbol"] ?? '';
+    if($op == null) {
       opPicker("+");
     } else {
       opPicker($_SESSION["symbol"]);
@@ -132,7 +137,8 @@ if(isset($_GET["plus"])) {
 }
 
 if(isset($_GET["divide"])) {
-    if($_SESSION["symbol"] == null) {
+    $op = $_SESSION["symbol"] ?? '';
+    if($op == null) {
       opPicker("/");
     } else {
       opPicker($_SESSION["symbol"]);
@@ -173,7 +179,7 @@ if(isset($_GET["equals"])) {
 <table class="calculator"> 
   <tr>
   <td colspan="3">
-<h1 class="total"><?php echo $total; ?></h1>
+<h1 class="total"><?php echo $total ?? ''; ?></h1>
 </td>
     <td><input type="submit" name="clear" value="C"></td>
   </tr>
@@ -202,7 +208,7 @@ if(isset($_GET["equals"])) {
     <td><input type="submit" name="plus" value="+"></td>
 	</tr>
 </table>
-<input type="hidden" name="total" value="<?php echo $total; ?>">
+<input type="hidden" name="total" value="<?php echo $total ?? ''; ?>">
 </form>
 
 
